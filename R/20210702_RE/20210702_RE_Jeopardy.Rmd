@@ -1,0 +1,131 @@
+---
+title: "RE - Riddler Jeopardy!"
+author: "David Chen"
+date: "7/4/2021"
+output:
+  pdf_document: default
+---
+
+# Original problem:
+
+**Riddler Express - July 2nd, 2021**
+
+> There are 200 episodes in a season of Riddler Jeopardy!. The first episode of the season features three brand-new contestants. Each subsequent episode includes a returning champion (the winner of the previous episode) as well as two new challengers.  
+>
+> Throughout the season, it so happens that the returning champions are particularly strong, with each one winning five consecutive episodes before being dethroned on the sixth. 
+> 
+> If you pick a contestant at random from the season, what is the probability that they are a Riddler Jeopardy! champion (meaning they won at least one episode)?
+
+---
+
+# Solution
+
+$$\text{Probability of selecting a champion} = \frac{\text{\# unique champions}}{\text{\# unique contestants}} = \frac{34}{401} \approx 0.0848$$
+
+In other words, roughly 8.48% of all unique contestants of the 200 episode season are champions. 
+
+\newpage
+
+# No Code Approach
+
+To find the probability of selecting a champion at random, we need to compute $\frac{\text{\# unique champions}}{\text{\# unique contestants}}$.
+
+## Number of Unique Champions
+
+First, let's find the number of unique champions. 
+
+From the description, "returning champions... [win] five consecutive episodes before being dethroned on the sixth." This implies that each champion wins an episode for the first time, wins five more, then gets dethroned on the next. Thus, they participate in seven total games, where the first and last episode include a former or future champion besides themselves. 
+
+However, instead of cycles of 7 episodes for each champion, it is easiest to think of it as cycles of 6. Since the 1st and 7th episode overlap with another champion, cycles of 6 entirely avoids this issue. They participate in their first episode where they dethrone the reigning champion, win the next five, and then the cycle repeats for the next champion. 
+
+Thus, we can find the number of cycles of 6 episodes to find the total number of unique champions. Following a simple calculation ($\frac{200}{6} \approx 33.33$) and rounding up, we find that there are **34 unique champions** across 200 episodes. 
+
+Now that we have the number of unique champions (34), we can find the number of unique contestants.
+
+## Number of Unique Contestants
+
+The naive approach would be to simply calculate $3 \times 200$, three contestants for each episode. However, as champions appear in multiple episodes, they would by counted multiple times. 
+
+If we write out the number of new contestants each episode, we see an obvious pattern:
+
+Episode 1: 3 new contestants - New Champion!  
+Episode 2: 2   
+Episode 3: 2  
+Episode 4: 2  
+Episode 5: 2  
+Episode 6: 2  
+Episode 7: 2 - New Champion!  
+Episode 8: 2   
+...  
+Episode 200: 2  
+
+Except the first episode, there are always 2 new contestants alongside the reigning champion. 
+
+Thus, the **total number of unique contestants is 401** ($199 \times 2 + 3$).
+
+## Calculating the Probability
+
+We now know that there are 34 unique champions and 401 total contestants. Thus, the probability of selecting a *Riddler Jeopardy!* champion at random is **0.0848**, or **8.48%**.
+
+$$\frac{\text{\# unique champions}}{\text{\# unique contestants}} = \frac{34}{401} \approx 0.0848$$
+
+```{r eval = F, echo = F}
+34/401
+```
+
+\newpage
+
+# Loop Solution
+
+An alternative solution is to build a loop. The logic follows from the previous solution.
+
+Every episode adds two new contestants, except the first where all three are new. A new champion is crowned following cycles of 6. 
+
+```{r}
+# Create a counter for the episode number
+episode <- 1
+
+# Create a cycle from 1-6 of the number of episodes for each champ
+champion_cycle <- 1
+
+# Counter for the total number of contestants
+total_contestants <- 0
+
+# Counter for the total number of champions
+total_champions <- 0
+
+# Loop through all 200 episodes
+while (episode <= 200) {
+  
+  # If it is the 1st episode, add 3 new contestants
+  # If it is the 2nd-200th episode, add 2 new contestants
+  if (episode == 1) {
+    total_contestants <- total_contestants + 3
+  } else { 
+    total_contestants <- total_contestants + 2
+  }
+  
+  # If it is the first episode of a cycle, add a new champion 
+  if (champion_cycle == 1) {
+    total_champions <- total_champions + 1
+  } 
+    
+  # Index the total episode counter
+  episode <- episode + 1
+  
+  # Index the champion episode cycle (1-6)
+  champion_cycle <- champion_cycle + 1
+  
+  # If it is the indexedf to the 7th episode, reset it back to 1
+  if (champion_cycle == 7) {
+    champion_cycle <- 1
+  }
+}
+
+# Print out the total number of champions / total number of contestants
+total_champions / total_contestants
+```
+
+Thus, the probability of selecting a *Riddler Jeopardy!* champion is 0.0848.
+
+
