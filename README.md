@@ -5,7 +5,7 @@ Attempted solutions to the Weekly problems from [FiveThirtyEight](https://fiveth
 
 ## [July 2nd, 2021](https://fivethirtyeight.com/features/who-will-win-riddler-jeopardy/) - Riddler Express
 
-### Riddler Jeopardy!
+### Riddler Express - Riddler Jeopardy!
 
 > There are 200 episodes in a season of Riddler Jeopardy!. The first episode of the season features three brand-new contestants. Each subsequent episode includes a returning champion (the winner of the previous episode) as well as two new challengers.  
 >
@@ -13,4 +13,5 @@ Attempted solutions to the Weekly problems from [FiveThirtyEight](https://fiveth
 > 
 > If you pick a contestant at random from the season, what is the probability that they are a Riddler Jeopardy! champion (meaning they won at least one episode)?
 
-### Solution
+### [**Solution**](https://github.com/TheDavidChen/TheRiddler/blob/main/R/20210702_RE/20210702_RE_Jeopardy.pdf)
+
