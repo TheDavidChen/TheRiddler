@@ -20,9 +20,11 @@ output:
 
 # Solution
 
-$$\text{Probability of selecting a champion} = \frac{\text{\# unique champions}}{\text{\# unique contestants}} = \frac{34}{401} \approx 0.0848$$
+*Updated July 11th - there is a champion every 6 games, not 7.*
 
-In other words, roughly 8.48% of all unique contestants of the 200 episode season are champions. 
+$$\text{Probability of selecting a champion} = \frac{\text{\# unique champions}}{\text{\# unique contestants}} = \frac{40}{401} \approx 0.09975$$
+
+In other words, roughly 9.975% of all unique contestants of the 200 episode season are champions. 
 
 \newpage
 
@@ -34,13 +36,13 @@ To find the probability of selecting a champion at random, we need to compute $\
 
 First, let's find the number of unique champions. 
 
-From the description, "returning champions... [win] five consecutive episodes before being dethroned on the sixth." This implies that each champion wins an episode for the first time, wins five more, then gets dethroned on the next. Thus, they participate in seven total games, where the first and last episode include a former or future champion besides themselves. 
+From the description, "returning champions... [win] five consecutive episodes before being dethroned on the sixth." This implies that each champion wins an episode for the first time, wins four more, then gets dethroned on the next. Thus, they participate in six total games, where the first and last episode include a former or future champion besides themselves. 
 
-However, instead of cycles of 7 episodes for each champion, it is easiest to think of it as cycles of 6. Since the 1st and 7th episode overlap with another champion, cycles of 6 entirely avoids this issue. They participate in their first episode where they dethrone the reigning champion, win the next five, and then the cycle repeats for the next champion. 
+However, instead of cycles of 6 episodes for each champion, it is easiest to think of it as cycles of 5. Since the 1st and 7th episode overlap with another champion, cycles of 5 entirely avoids this issue. They participate in their first episode where they dethrone the reigning champion, win the next four, and then the cycle repeats for the next champion. 
 
-Thus, we can find the number of cycles of 6 episodes to find the total number of unique champions. Following a simple calculation ($\frac{200}{6} \approx 33.33$) and rounding up, we find that there are **34 unique champions** across 200 episodes. 
+Thus, we can find the number of cycles of 5 episodes to find the total number of unique champions. Following a simple calculation ($\frac{200}{5} = 40$), we find that there are **40 unique champions** across 200 episodes. 
 
-Now that we have the number of unique champions (34), we can find the number of unique contestants.
+Now that we have the number of unique champions (40), we can find the number of unique contestants.
 
 ## Number of Unique Contestants
 
@@ -53,8 +55,8 @@ Episode 2: 2
 Episode 3: 2  
 Episode 4: 2  
 Episode 5: 2  
-Episode 6: 2  
-Episode 7: 2 - New Champion!  
+Episode 6: 2  - New Champion! 
+Episode 7: 2  
 Episode 8: 2   
 ...  
 Episode 200: 2  
@@ -65,13 +67,9 @@ Thus, the **total number of unique contestants is 401** ($199 \times 2 + 3$).
 
 ## Calculating the Probability
 
-We now know that there are 34 unique champions and 401 total contestants. Thus, the probability of selecting a *Riddler Jeopardy!* champion at random is **0.0848**, or **8.48%**.
+We now know that there are 40 unique champions and 401 total contestants. Thus, the probability of selecting a *Riddler Jeopardy!* champion at random is **0.09975**, or **9.975%**.
 
-$$\frac{\text{\# unique champions}}{\text{\# unique contestants}} = \frac{34}{401} \approx 0.0848$$
-
-```{r eval = F, echo = F}
-34/401
-```
+$$\frac{\text{\# unique champions}}{\text{\# unique contestants}} = \frac{40}{401} \approx 0.09975$$
 
 \newpage
 
@@ -117,7 +115,7 @@ while (episode <= 200) {
   champion_cycle <- champion_cycle + 1
   
   # If it is the indexedf to the 7th episode, reset it back to 1
-  if (champion_cycle == 7) {
+  if (champion_cycle == 6) {
     champion_cycle <- 1
   }
 }
@@ -126,6 +124,6 @@ while (episode <= 200) {
 total_champions / total_contestants
 ```
 
-Thus, the probability of selecting a *Riddler Jeopardy!* champion is 0.0848.
+Thus, the probability of selecting a *Riddler Jeopardy!* champion is 0.09975.
 
 
